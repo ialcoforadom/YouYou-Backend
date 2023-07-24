@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  youyou:
+    build: .
+    image: youyou
+    container_name: youyou-backend
+    ports:
+    - "3000:80"
+    restart: always
+    environment:
+      ConnectionStrings__YouYouDbContext: "Server=host.docker.internal,1533;Database=YouYou;User Id=sa;Password=Your_password123;Integrated Security=false;TrustServerCertificate=True;"
+      ConnectionStrings__ConnectionRedis: "host.docker.internal:6370,password=qwe123*,abortConnect=false"
+      ValidoEm: "http://host.docker.internal"
+      ASPNETCORE_URLS: "http://+"
+      ASPNETCORE_ENVIRONMENT: "Development"
+    volumes:
+      - youyou:/app/data
+  redis:
+    image: redis
+    container_name: redis-youyou
+    command: redis-server --requirepass qwe123*
+    ports:
+      - "6370:6369"
+
+volumes:
+  youyou:
